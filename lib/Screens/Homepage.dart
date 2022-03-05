@@ -1,5 +1,11 @@
 import 'package:bloodbank/Screens/dashboard.dart';
+import 'package:bloodbank/constants.dart';
+import 'package:bloodbank/core/viewmodels/general_provider.dart';
+import 'package:bloodbank/screens/available_locations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -7,9 +13,35 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-   DateTime availableDate = DateTime.now(), enquiryValidity = DateTime.now();
+  DateTime availableDate = DateTime.now(), enquiryValidity = DateTime.now();
+  TextEditingController boardingController;
+  TextEditingController destinationController;
+  GeneralProvider generalProvider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    generalProvider = Provider.of<GeneralProvider>(context, listen: false);
+    super.initState();
+    boardingController = TextEditingController();
+    destinationController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    boardingController.text = Provider.of<GeneralProvider>(
+      context,
+      listen: true, // Be sure to listen
+    ).selectedSource;
+    destinationController.text = Provider.of<GeneralProvider>(
+      context,
+      listen: true, // Be sure to listen
+    ).selectedDestination;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    boardingController.text = generalProvider.selectedSource;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -26,122 +58,169 @@ class _HomepageState extends State<Homepage> {
         elevation: 0.0,
       ),
       body: Container(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left:30),
-                      child: Text("From"),
-                    ),
-                     SizedBox(height:10),
-                    Container(
-                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Enter Boarding",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 30),
+        child: SingleChildScrollView(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("From"),
+                      SizedBox(height: 10),
+                      Container(
+                        padding: EdgeInsets.only(top: 8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: boardingController,
+                          onChanged: generalProvider.setSelectedSource,
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AvailableLocations(
+                                      setData: (value) {
+                                        generalProvider
+                                            .setSelectedSource(value);
+                                      },
+                                    )));
+                          },
+                          decoration: InputDecoration(
+                            hintText: "Enter Boarding",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left:150),
-                      child: Image.asset("assets/images/drop.png")),
-                    // SizedBox(height:5),
-                    Container(
-                      margin: EdgeInsets.only(left:30),
-                      child: Text("To"),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 5, left: 30, right: 30, bottom: 10),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Enter Destination",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/drop.png"),
+                        ],
+                      ),
+                      Text("To"),
+                      Container(
+                        padding: EdgeInsets.only(top: 8),
+                        child: TextField(
+                          readOnly: true,
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AvailableLocations(
+                                      setData: (value) {
+                                        generalProvider
+                                            .setSelectedDestination(value);
+                                      },
+                                    )));
+                          },
+                          controller: destinationController,
+                          decoration: InputDecoration(
+                            hintText: "Enter Destination",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                      SizedBox(height:20),
-                       Padding(
-                                padding:
-                                    EdgeInsets.only(left: 30.0, right: 30.0),
-                                child: Container(
-                                  width:  MediaQuery.of(context).size.width * 1,
-                                  height: 50,
-                                  padding: EdgeInsets.only(
-                                      top: 6.0,
-                                      bottom: 6.0,
-                                      left: 12.0,
-                                      right: 8.0),
-                                  decoration: BoxDecoration(
-                                    border:
-                                        Border.all(width: 1, color: Colors.green),
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Stack(children: [
-                                    GestureDetector(
-                                        onTap: () async {
-                                          final DateTime selected =
-                                              await showDatePicker(
-                                            context: context,
-                                            initialDate: availableDate,
-                                            firstDate: DateTime(1970),
-                                            lastDate: DateTime(3025),
-                                          );
-                                          if (selected != null) {
-                                            setState(() {
-                                              availableDate = selected;
-                                            });
-                                          }
-                                        },
-                                        child: Icon(Icons.calendar_today)
-                                        
-                                        // Image.asset(
-                                        //     "assets/images/drop.png")
-                                            ),
-                                    Positioned(
-                                        left: 120.0,
-                                        top: 15.0,
-                                        child: Center(
-                                          child: Text(
-                                              "${availableDate.day}/${availableDate.month}/${availableDate.year}"),
-                                        ))
-                                  ]),
-                                ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              print(generalProvider.selectedSource);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 250,
+                              decoration: BoxDecoration(
+                                color: AppConstants.primaryAccent,
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              SizedBox(height:20),
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DashBoard()));
-                                  },
-                                                                  child: Container(
-                height: 50,
-                margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
-                decoration: BoxDecoration(
-                    color: Colors.greenAccent[700],
-                    // Color.fromARGB(214, 214, 214, 1),
-                    // borderRadius: BorderRadius.circular(30)
-                    ),
-                child: Center(
-                    child: Text("SEARCH BUS",
-                        style: TextStyle(fontSize: 20, color: Colors.white))),
-              ),
-                                ),
+                              child: Center(
+                                  child: Text("Search Bus",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white))),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Text("COVID PANDEMIC AWARENESS"),
                   ],
                 ),
-              )
-            ]),
+                SizedBox(
+                  height: 15,
+                ),
+                FutureBuilder(
+                    future: generalProvider.fetchBannerImages(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List images = snapshot.data['images'];
+                        return Container(
+                          height: 150,
+                          width: double.infinity,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: images.length,
+                              itemBuilder: (context, index) {
+                                print(images[index]['image']);
+                                return Container(
+                                  width: 300,
+                                  margin: EdgeInsets.only(right: 20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      images[index]["image"],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  //     CachedNetworkImage(
+                                  //   fit: BoxFit.cover,
+                                  //   imageUrl:
+                                  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP59-1bbiVX55W1uIdLMtD62PNmYE1oMIKFQ&usqp=CAU",
+
+                                  //   imageBuilder: (context, imageProvider) =>
+                                  //       Container(
+                                  //     decoration: BoxDecoration(
+                                  //       image: DecorationImage(
+                                  //           image: imageProvider,
+                                  //           fit: BoxFit.cover,
+                                  //           colorFilter: ColorFilter.mode(
+                                  //               Colors.red, BlendMode.colorBurn)),
+                                  //     ),
+                                  //   ),
+                                  //   placeholder: (context, url) =>
+                                  //       CircularProgressIndicator(),
+                                  //   // placeholder: (context, url) => Image.asset(
+                                  //   //     'assets/images/no_image.png'),
+                                  //   // errorWidget: (context, url, error) =>
+                                  //   //     Image.asset(
+                                  //   //         'assets/images/no_image.png'),
+                                  // ),
+                                );
+                              }),
+                        );
+                      }
+                      return Center(
+                        child: Text("Loading..."),
+                      );
+                    })
+              ]),
+        ),
       ),
     );
   }
