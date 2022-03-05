@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "262576988938",
+    "firebase_url": "https://greenbus-b1cc4-default-rtdb.firebaseio.com",
+    "project_id": "greenbus-b1cc4",
+    "storage_bucket": "greenbus-b1cc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262576988938:android:41cee9dc2d49f465a8d0f3",
+        "android_client_info": {
+          "package_name": "com.example.bloodbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262576988938-v8ik97hbbosci18ooi0k06pphll9p766.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhiaWvuUlKokLJUS7dwsQmDAGfrWreOaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262576988938-v8ik97hbbosci18ooi0k06pphll9p766.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
