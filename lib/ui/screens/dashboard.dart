@@ -1,4 +1,4 @@
-import 'package:bloodbank/Screens/seat.dart';
+import 'package:bloodbank/ui/screens/seat.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {
@@ -15,8 +15,8 @@ class _DashBoardState extends State<DashBoard> {
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
       appBar: AppBar(
         leading: Container(
-          margin: EdgeInsets.only(top:15),
-          child: Icon(Icons.arrow_back, color: Colors.black)),
+            margin: EdgeInsets.only(top: 15),
+            child: Icon(Icons.arrow_back, color: Colors.black)),
         backgroundColor: Colors.white,
         title: Center(
             child: Text(
@@ -25,23 +25,22 @@ class _DashBoardState extends State<DashBoard> {
         )),
         elevation: 0.0,
         bottom: PreferredSize(
-          
           preferredSize: null,
           child: BottomAppBar(
-              elevation: 0.0, child: Container(
-                margin: EdgeInsets.only(bottom:5),
-                child: Center(child: Text("20-SEP-2022")))),
-              
+              elevation: 0.0,
+              child: Container(
+                  margin: EdgeInsets.only(bottom: 5),
+                  child: Center(child: Text("20-SEP-2022")))),
         ),
-        
-        actions: [Padding(
-          padding: EdgeInsets.all(10),
-          child: Icon(Icons.messenger_rounded,color: Colors.black,)
-          )
-          ],
-        
+        actions: [
+          Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(
+                Icons.messenger_rounded,
+                color: Colors.black,
+              ))
+        ],
       ),
-      
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -53,10 +52,13 @@ class _DashBoardState extends State<DashBoard> {
                   itemCount: 20,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Bookingseats()));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Bookingseats()));
                       },
-                                          child: Container(
+                      child: Container(
                         height: 100,
                         margin: EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
@@ -105,7 +107,8 @@ class _DashBoardState extends State<DashBoard> {
                                   SizedBox(height: 7),
 
                                   Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: [
                                       Text('20:11',
                                           style: TextStyle(

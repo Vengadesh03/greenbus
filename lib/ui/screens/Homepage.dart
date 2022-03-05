@@ -1,11 +1,8 @@
-import 'package:bloodbank/Screens/dashboard.dart';
 import 'package:bloodbank/constants.dart';
 import 'package:bloodbank/core/viewmodels/general_provider.dart';
-import 'package:bloodbank/screens/available_locations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'available_locations.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -130,7 +127,11 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           InkWell(
                             onTap: () {
-                              print(generalProvider.selectedSource);
+                              // generalProvider.getAllBusesForSelectedRoute(
+                              //     source: generalProvider.selectedSource,
+                              //     destination:
+                              //         generalProvider.selectedDestination);
+                              Navigator.pushNamed(context, '/buses');
                             },
                             child: Container(
                               height: 50,

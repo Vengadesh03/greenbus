@@ -25,6 +25,15 @@ class GeneralProvider extends ChangeNotifier {
     return banners[0].data();
   }
 
+  Future getAllBusesForSelectedRoute({source, destination}) async {
+    List buses;
+    var result = await _api.getAllBusesForSelectedRoute(
+        source: source, destination: destination);
+    buses = result.docs.map((e) => e.data()).toList();
+    print(buses);
+    return buses;
+  }
+
   Future getAvailableLocations() async {
     List locations;
     QuerySnapshot result = await _api.getDataCollection(path: 'locations');
