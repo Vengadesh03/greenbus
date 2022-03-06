@@ -25,12 +25,6 @@ class MyApp extends StatelessWidget {
           title: 'Green Bus',
           theme: ThemeData(),
           onGenerateRoute: CustomRouter.Router.generateRoute),
-      //  MaterialApp(
-      //   title: 'Flutter Demo',
-      //   theme: ThemeData(
-      //     visualDensity: VisualDensity.adaptivePlatformDensity,
-      //   ),
-      //   home: Login(),
     );
   }
 }

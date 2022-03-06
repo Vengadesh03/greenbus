@@ -10,6 +10,15 @@ class Api {
     return ref.get();
   }
 
+  Future<QuerySnapshot> getAllBusesForSelectedRoute(
+      {String source, String destination}) {
+    Query query = _db
+        .collection('travels')
+        .where('source', isEqualTo: source)
+        .where('destination', isEqualTo: destination);
+    return query.get();
+  }
+
   Stream<QuerySnapshot> streamDataCollection() {
     return ref.snapshots();
   }

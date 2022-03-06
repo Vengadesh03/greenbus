@@ -1,6 +1,5 @@
-import 'package:bloodbank/Screens/Homepage.dart';
-import 'package:bloodbank/Screens/bottomnavigator.dart';
-import 'package:bloodbank/Screens/signup.dart';
+import 'package:bloodbank/ui/screens/bottomnavigator.dart';
+import 'package:bloodbank/ui/screens/signup.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -17,7 +16,11 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: Text("LOGIN", style: TextStyle(fontSize: 30,))),
+              Center(
+                  child: Text("LOGIN",
+                      style: TextStyle(
+                        fontSize: 30,
+                      ))),
               SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
@@ -51,35 +54,47 @@ class _LoginState extends State<Login> {
                     // Color.fromARGB(214, 214, 214, 1),
                     borderRadius: BorderRadius.circular(30)),
                 child: InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavigator()));
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavigator()));
                   },
-                                  child: Center(
+                  child: Center(
                       child: Text("Login",
                           style: TextStyle(fontSize: 20, color: Colors.white))),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 200),
-                child: Text("Forgot Password?", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold )),
+                child: Text("Forgot Password?",
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               ),
-              SizedBox(height:20),
+              SizedBox(height: 20),
               Container(
-               
-                child:Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  
-                  Text("Don’t have an account? ",style: TextStyle(fontSize: 14,color: Color(0xffBABABA) ),),
+                  child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don’t have an account? ",
+                    style: TextStyle(fontSize: 14, color: Color(0xffBABABA)),
+                  ),
                   InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Signup()));
-                    },
-                    child: Text("Sign up here.",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.green[500] ),)),
-
-                ],)
-              )
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Signup()));
+                      },
+                      child: Text(
+                        "Sign up here.",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green[500]),
+                      )),
+                ],
+              ))
             ]),
       ),
     );
