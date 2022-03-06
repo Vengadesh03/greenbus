@@ -7,6 +7,7 @@ class GeneralProvider extends ChangeNotifier {
   Api _api = locator<Api>();
   String selectedSource = "";
   String selectedDestination = "";
+  DateTime selectedDate = DateTime.now();
 
   setSelectedSource(value) {
     selectedSource = value;
@@ -15,6 +16,11 @@ class GeneralProvider extends ChangeNotifier {
 
   setSelectedDestination(value) {
     selectedDestination = value;
+    notifyListeners();
+  }
+
+  setSelectedDateTime(value) {
+    selectedDate = value;
     notifyListeners();
   }
 
