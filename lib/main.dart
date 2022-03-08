@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: '/',
+          initialRoute: '/mobile',
           title: 'Green Bus',
           theme: ThemeData(),
           onGenerateRoute: CustomRouter.Router.generateRoute),

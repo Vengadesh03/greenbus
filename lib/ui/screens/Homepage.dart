@@ -1,5 +1,6 @@
 import 'package:bloodbank/constants.dart';
 import 'package:bloodbank/core/viewmodels/general_provider.dart';
+import 'package:bloodbank/ui/screens/webview.dart';
 import 'package:bloodbank/ui/widgets/toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -233,6 +234,7 @@ class _HomepageState extends State<Homepage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List images = snapshot.data['images'];
+                        
                         return Container(
                           height: 150,
                           width: double.infinity,
@@ -241,42 +243,49 @@ class _HomepageState extends State<Homepage> {
                               itemCount: images.length,
                               itemBuilder: (context, index) {
                                 print(images[index]['image']);
-                                return Container(
-                                  width: 300,
-                                  margin: EdgeInsets.only(right: 20),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                      images[index]["image"],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  //     CachedNetworkImage(
-                                  //   fit: BoxFit.cover,
-                                  //   imageUrl:
-                                  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP59-1bbiVX55W1uIdLMtD62PNmYE1oMIKFQ&usqp=CAU",
+                                print(images[index]['navLink']);
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BannerView(navlink:images[index]['navLink'] ,)));
+                                  },
 
-                                  //   imageBuilder: (context, imageProvider) =>
-                                  //       Container(
-                                  //     decoration: BoxDecoration(
-                                  //       image: DecorationImage(
-                                  //           image: imageProvider,
-                                  //           fit: BoxFit.cover,
-                                  //           colorFilter: ColorFilter.mode(
-                                  //               Colors.red, BlendMode.colorBurn)),
-                                  //     ),
-                                  //   ),
-                                  //   placeholder: (context, url) =>
-                                  //       CircularProgressIndicator(),
-                                  //   // placeholder: (context, url) => Image.asset(
-                                  //   //     'assets/images/no_image.png'),
-                                  //   // errorWidget: (context, url, error) =>
-                                  //   //     Image.asset(
-                                  //   //         'assets/images/no_image.png'),
-                                  // ),
+                                                                  child: Container(
+                                    width: 300,
+                                    margin: EdgeInsets.only(right: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.network(
+                                        images[index]["image"],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    //     CachedNetworkImage(
+                                    //   fit: BoxFit.cover,
+                                    //   imageUrl:
+                                    //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP59-1bbiVX55W1uIdLMtD62PNmYE1oMIKFQ&usqp=CAU",
+
+                                    //   imageBuilder: (context, imageProvider) =>
+                                    //       Container(
+                                    //     decoration: BoxDecoration(
+                                    //       image: DecorationImage(
+                                    //           image: imageProvider,
+                                    //           fit: BoxFit.cover,
+                                    //           colorFilter: ColorFilter.mode(
+                                    //               Colors.red, BlendMode.colorBurn)),
+                                    //     ),
+                                    //   ),
+                                    //   placeholder: (context, url) =>
+                                    //       CircularProgressIndicator(),
+                                    //   // placeholder: (context, url) => Image.asset(
+                                    //   //     'assets/images/no_image.png'),
+                                    //   // errorWidget: (context, url, error) =>
+                                    //   //     Image.asset(
+                                    //   //         'assets/images/no_image.png'),
+                                    // ),
+                                  ),
                                 );
                               }),
                         );
