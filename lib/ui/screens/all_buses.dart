@@ -3,6 +3,7 @@ import 'package:bloodbank/core/viewmodels/general_provider.dart';
 import 'package:bloodbank/ui/screens/bus_details.dart';
 import 'package:bloodbank/ui/widgets/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AllBuses extends StatefulWidget {
@@ -66,7 +67,31 @@ class _AllBusesState extends State<AllBuses> {
                     itemBuilder: (context, index) {
                       Map item = snapshot.data[index];
                       return InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          String docName =
+                              DateFormat.yMMMd().format(DateTime.now());
+                          bool alreadyAvailable =
+                              await generalProvider.seatAvailability(
+                                  docId: snapshot.data[index]["id"],
+                                  docName: docName);
+                          if (!alreadyAvailable) {
+                            Map<String, dynamic> data = {
+                              'date': docName,
+                              'seats': []
+                            };
+                            for (int i = 1; i <= 20; i++) {
+                              data['seats'].add({
+                                'seat': i.toString(),
+                                'price': '950',
+                                'hasBooked': false
+                              });
+                            }
+                            print(data);
+                            generalProvider.fillDataTemp(
+                                docId: snapshot.data[index]["id"],
+                                data: data,
+                                docName: docName);
+                          }
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => BusDetails(
@@ -74,6 +99,10 @@ class _AllBusesState extends State<AllBuses> {
                               ),
                             ),
                           );
+
+                          // generalProvider.cloneDoc(
+                          //   parentDocId: snapshot.data[index]["id"],
+                          // );
                         },
                         child: Container(
                           color: Colors.white,
