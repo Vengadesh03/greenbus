@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloodbank/constants.dart';
+import 'package:bloodbank/core/payment.dart';
 import 'package:bloodbank/core/viewmodels/general_provider.dart';
 import 'package:bloodbank/ui/widgets/toaster.dart';
 import 'package:flutter/material.dart';
@@ -214,7 +215,6 @@ class _HomepageState extends State<Homepage> {
                                           userDetails['email'].toString();
                                       List doc = await generalProvider
                                           .queryUser(email: email);
-                                      // print("DOC $doc");
                                       if (doc != null || doc.isNotEmpty) {
                                         generalProvider.addRecents(
                                             parentDocId: doc[0]["id"],
@@ -229,10 +229,6 @@ class _HomepageState extends State<Homepage> {
                                   } catch (e) {}
                                   Navigator.pushNamed(context, '/buses');
                                 }
-                                // generalProvider.getAllBusesForSelectedRoute(
-                                //     source: generalProvider.selectedSource,
-                                //     destination:
-                                //         generalProvider.selectedDestination);
                               },
                               child: Container(
                                 height: 50,
@@ -362,7 +358,6 @@ class _HomepageState extends State<Homepage> {
                               scrollDirection: Axis.horizontal,
                               itemCount: images.length,
                               itemBuilder: (context, index) {
-                                // print(images[index]['image']);
                                 return Container(
                                   width: 300,
                                   margin: EdgeInsets.only(right: 20),

@@ -10,6 +10,7 @@ class AppStrings {
   static const maxSeats6 = "Maximum 6 seats are allowed";
   static const atleastOneSeat = "Select atleast one seat";
   static const ticketsBooked = "Tickets booked successfully";
+  static const paySuccess = "Payment success. Your tickets are booked";
 }
 
 TextStyle regularStyle({double fontSize, FontWeight fontWeight, Color color}) {

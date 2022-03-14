@@ -1,4 +1,5 @@
 import 'package:bloodbank/constants.dart';
+import 'package:bloodbank/core/payment.dart';
 import 'package:bloodbank/core/viewmodels/general_provider.dart';
 import 'package:bloodbank/ui/widgets/loader.dart';
 import 'package:bloodbank/ui/widgets/toaster.dart';
@@ -25,120 +26,114 @@ class _BusDetailsState extends State<BusDetails> {
 
   Size screenSize;
   GeneralProvider generalProvider;
+  Widget busWidget;
   @override
   Widget build(BuildContext context) {
+    busWidget = Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Container(
+          child: Column(children: [
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/bus.png',
+                  height: 25,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  widget.busDetails['travelsName'],
+                  style: boldStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.5,
+                      color: Colors.black),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Row(
+              children: [
+                Text(
+                  widget.busDetails['filterType'] == "AC"
+                      ? "A/C" +
+                          " Sleeper " +
+                          "(${widget.busDetails['sleeperConfig']})"
+                      : "Non A/C Seater / Sleeper (${widget.busDetails['sleeperConfig']})",
+                  style: regularStyle(fontSize: 17.5, color: Colors.black),
+                )
+              ],
+            )
+          ]),
+        ),
+        Column(
+          children: [
+            Container(
+              height: 25,
+              width: 60,
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    widget.busDetails['rating'],
+                    style: regularStyle(fontSize: 15.5, color: Colors.white),
+                  )
+                ],
+              ),
+              decoration: BoxDecoration(color: AppConstants.primaryColor),
+            ),
+            Container(
+              height: 25,
+              width: 60,
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.people,
+                    color: Colors.black,
+                    size: 16,
+                  ),
+                  Text(
+                    widget.busDetails['totalPeople'],
+                    style: regularStyle(fontSize: 12.5, color: Colors.black),
+                  )
+                ],
+              ),
+              decoration: BoxDecoration(color: Colors.grey[300]),
+            )
+          ],
+        )
+      ]),
+    );
+
     screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size / 9,
         child: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.keyboard_arrow_left_outlined,
-              color: Colors.black,
-              size: 28,
+            backgroundColor: Colors.white,
+            leading: IconButton(
+              icon: Icon(
+                Icons.keyboard_arrow_left_outlined,
+                color: Colors.black,
+                size: 28,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Column(children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/bus.png',
-                            height: 25,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            widget.busDetails['travelsName'],
-                            style: boldStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.5,
-                                color: Colors.black),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            widget.busDetails['filterType'] == "AC"
-                                ? "A/C" +
-                                    " Sleeper " +
-                                    "(${widget.busDetails['sleeperConfig']})"
-                                : "Non A/C Seater / Sleeper (${widget.busDetails['sleeperConfig']})",
-                            style: regularStyle(
-                                fontSize: 17.5, color: Colors.black),
-                          )
-                        ],
-                      )
-                    ]),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 25,
-                        width: 60,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Text(
-                              widget.busDetails['rating'],
-                              style: regularStyle(
-                                  fontSize: 15.5, color: Colors.white),
-                            )
-                          ],
-                        ),
-                        decoration:
-                            BoxDecoration(color: AppConstants.primaryColor),
-                      ),
-                      Container(
-                        height: 25,
-                        width: 60,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.people,
-                              color: Colors.black,
-                              size: 16,
-                            ),
-                            Text(
-                              widget.busDetails['totalPeople'],
-                              style: regularStyle(
-                                  fontSize: 12.5, color: Colors.black),
-                            )
-                          ],
-                        ),
-                        decoration: BoxDecoration(color: Colors.grey[300]),
-                      )
-                    ],
-                  )
-                ]),
-          ),
-        ),
+            title: busWidget),
       ),
       body: Container(
         height: screenSize.height,
@@ -171,17 +166,11 @@ class _BusDetailsState extends State<BusDetails> {
               textColor: Colors.white,
               child: Text('Book'),
               onPressed: () async {
-                print(generalProvider.seatMaxCount);
-                if (generalProvider.seatMaxCount == 0) {
-                  toaster(message: AppStrings.atleastOneSeat);
-                }
-                var result = await generalProvider.updateSeatBooked(
-                  parentDocId: widget.busDetails["id"],
-                  docId: DateFormat.yMMMd().format(DateTime.now()),
-                );
-                if (result == true) {
-                  toaster(message: AppStrings.ticketsBooked);
-                }
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Payment(
+                          docId: widget.busDetails["id"],
+                          busWidget: busWidget,
+                        )));
               }),
           SizedBox(
             width: 10,

@@ -46,7 +46,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
               color: Colors.black,
             ),
             title: Text(
-              'My Bookings',
+              'Bookings',
               style: regularStyle(
                 fontSize: 16.5,
                 color: Colors.black,
