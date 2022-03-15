@@ -31,12 +31,17 @@ class _HomepageState extends State<Homepage> {
 
   getRecents() async {
     var userDetails = await fetchUserDetails();
+    // print("USER $userDetails");
+
     if (userDetails != null) {
       String email = userDetails['email'].toString();
       List doc = await generalProvider.queryUser(email: email);
-      // print("DOC $doc");
+
+      // print("DOC ${doc.length}");
       if (doc != null || doc.isNotEmpty) {
+        generalProvider.setUserDocId(doc[0]["id"]);
         var a = await generalProvider.getRecents(docId: doc[0]["id"]);
+        // print("AAAAAA ${a.length}");
         return a;
       }
       return [];

@@ -10,13 +10,13 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:bloodbank/ui/screens/bottomnavigator.dart';
 
 class Payment extends StatefulWidget {
-  Payment({Key key, this.title, this.busWidget, this.data, this.docId})
+  Payment({Key key, this.title, this.travelsName, this.busWidget, this.docId})
       : super(key: key);
 
   final String title;
-  final Map data;
   final Widget busWidget;
   final docId;
+  final String travelsName;
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -90,7 +90,18 @@ class _PaymentState extends State<Payment> {
       parentDocId: widget.docId,
       docId: DateFormat.yMMMd().format(DateTime.now()),
     );
-    if (result == true) {
+    print("ssjb${generalProvider.userdocId}");
+    var result2 = await generalProvider
+        .addBookings(parentDocId: generalProvider.userdocId, data: {
+      "source": generalProvider.selectedSource,
+      "destination": generalProvider.selectedDestination,
+      "date": DateFormat.yMMMEd().format(generalProvider.selectedDate),
+      "seats": generalProvider.seatMaxCount.toString(),
+      "travels": widget.travelsName,
+      "amount": total.toString()
+    });
+    print("RESULT 2 $result2  + $result");
+    if (result == true && result2 == true) {
       toaster(message: AppStrings.paySuccess);
       Navigator.pushAndRemoveUntil(
           context,

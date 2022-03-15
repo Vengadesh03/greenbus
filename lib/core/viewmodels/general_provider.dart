@@ -9,6 +9,7 @@ class GeneralProvider extends ChangeNotifier {
   String selectedDestination = "";
   DateTime selectedDate = DateTime.now();
   int seatMaxCount = 0;
+  String userdocId = "";
   List seatsData = [];
   setSelectedSource(value) {
     selectedSource = value;
@@ -17,6 +18,11 @@ class GeneralProvider extends ChangeNotifier {
 
   resetSeatMaxCount() {
     seatMaxCount = 0;
+    notifyListeners();
+  }
+
+  setUserDocId(value) {
+    userdocId = value;
     notifyListeners();
   }
 
@@ -77,7 +83,28 @@ class GeneralProvider extends ChangeNotifier {
       a["id"] = e.id;
       return a;
     }).toList();
+
     return recents;
+  }
+
+  Future getMyBookings({docId}) async {
+    List recents = [];
+    var result = await _api.getMyBookings(docId: userdocId);
+    recents = result.docs.map((e) {
+      Map a = e.data();
+      a["id"] = e.id;
+      return a;
+    }).toList();
+    return recents;
+  }
+
+  Future addBookings({
+    Map<String, dynamic> data,
+    parentDocId,
+  }) async {
+    var result = await _api.addBookings(data: data, parentDocId: parentDocId);
+    print("MY res $result");
+    return result != null ? true : false;
   }
 
   Future addRecents({
