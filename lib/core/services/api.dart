@@ -54,15 +54,38 @@ class Api {
     return result;
   }
 
+  Future getMyBookings({docId}) async {
+    print("USER DOC $docId");
+    var result = await _db
+        .collection('users')
+        .doc(docId)
+        .collection('bookings')
+        .orderBy('date', descending: true)
+        .get();
+    print(result.docs);
+    return result;
+  }
+
   Future addRecents({
     Map<String, dynamic> data,
     parentDocId,
   }) async {
-    // print("DOC ID $parentDocId data $data");
     var result = await _db
         .collection('users')
         .doc(parentDocId)
         .collection('recentsearches')
+        .add(data);
+    return result;
+  }
+
+  Future addBookings({
+    Map<String, dynamic> data,
+    parentDocId,
+  }) async {
+    var result = await _db
+        .collection('users')
+        .doc(parentDocId)
+        .collection('bookings')
         .add(data);
     return result;
   }

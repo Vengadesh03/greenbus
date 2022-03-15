@@ -169,6 +169,7 @@ class _BusDetailsState extends State<BusDetails> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => Payment(
                           docId: widget.busDetails["id"],
+                          travelsName: widget.busDetails['travelsName'],
                           busWidget: busWidget,
                         )));
               }),
